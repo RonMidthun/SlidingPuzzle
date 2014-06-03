@@ -8,12 +8,60 @@
 
 #import "PuzzleModel.h"
 @implementation PuzzleLocation
+-(instancetype)initWithX:(int)x Y:(int)y
+{
+    self = [super init];
+    if(self)
+    {
+        self.x = x;
+        self.y = y;
+    }
+    return self;
+}
 @end
 
 @implementation PuzzleAction
+-(instancetype)init
+{
+    self = [super init];
+    if(self)
+    {
+        self.motions = [[NSMutableDictionary alloc] init];
+    }
+    return self;
+}
+
+-(NSSet *)terminalSlots
+{
+    NSSet* sources = [NSSet setWithArray:[self.motions allKeys]];
+    NSMutableSet* destinations = [NSMutableSet setWithArray:[self.motions allValues]];
+    [destinations minusSet:sources];
+    return destinations;
+}
+
+-(NSSet *)sourceSlots
+{
+    NSMutableSet* sources = [NSMutableSet setWithArray:[self.motions allKeys]];
+    NSSet* destinations = [NSSet setWithArray:[self.motions allValues]];
+    [sources minusSet:destinations];
+    return sources;
+}
+
+
 @end
 
 @implementation PuzzleModel
+-(instancetype)init
+{
+    self = [super init];
+    if(self)
+    {
+        self.positions = [[NSMutableArray alloc] init];
+        self.actions = [[NSMutableArray alloc] init];
+        self.initialPosition = [[NSMutableDictionary alloc] init];
+    }
+    return self;
+}
 @end
 
 @implementation Puzzle

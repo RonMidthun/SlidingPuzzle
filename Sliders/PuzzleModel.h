@@ -20,6 +20,7 @@
 
 #import <Foundation/Foundation.h>
 @interface PuzzleLocation : NSObject
+-(instancetype)initWithX:(int)x Y:(int)y;
 @property (nonatomic, assign) int x;
 @property (nonatomic, assign) int y;
 @end
