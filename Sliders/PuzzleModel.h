@@ -38,7 +38,7 @@
 @interface PuzzleModel : NSObject
 @property (nonatomic, strong) NSMutableArray* positions;    //puzzle location for each position in the puzzle
 @property (nonatomic, strong) NSMutableArray* actions;
-@property (nonatomic, strong) NSMutableDictionary* initialPosition;     //name of marker at each location
+@property (nonatomic, strong) NSMutableDictionary* startPosition;     //name of marker at each location
 @end
 
 @interface Puzzle : NSObject

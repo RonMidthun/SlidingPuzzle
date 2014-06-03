@@ -58,7 +58,7 @@
     {
         self.positions = [[NSMutableArray alloc] init];
         self.actions = [[NSMutableArray alloc] init];
-        self.initialPosition = [[NSMutableDictionary alloc] init];
+        self.startPosition = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -78,7 +78,7 @@
 
 - (void)reset
 {
-    self.state = [[NSMutableDictionary alloc] initWithDictionary:self.model.initialPosition];
+    self.state = [[NSMutableDictionary alloc] initWithDictionary:self.model.startPosition];
 }
 
 - (BOOL)doAction:(PuzzleAction*)action

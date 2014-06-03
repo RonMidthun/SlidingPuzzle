@@ -20,10 +20,11 @@
 		63EC6415193D8B0300EBEBD6 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63EC6414193D8B0300EBEBD6 /* XCTest.framework */; };
 		63EC6416193D8B0300EBEBD6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63EC63EF193D8B0300EBEBD6 /* Cocoa.framework */; };
 		63EC641E193D8B0300EBEBD6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 63EC641C193D8B0300EBEBD6 /* InfoPlist.strings */; };
-		63EC6420193D8B0300EBEBD6 /* SlidersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EC641F193D8B0300EBEBD6 /* SlidersTests.m */; };
 		63EC642B193D8B9E00EBEBD6 /* BuildScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EC642A193D8B9E00EBEBD6 /* BuildScene.m */; };
 		63EC642E193D8BAF00EBEBD6 /* PuzzleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EC642D193D8BAF00EBEBD6 /* PuzzleModel.m */; };
 		63EC6431193D8BBD00EBEBD6 /* PlayScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EC6430193D8BBD00EBEBD6 /* PlayScene.m */; };
+		63EC6433193D9A9100EBEBD6 /* PuzzleModelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EC6432193D9A9100EBEBD6 /* PuzzleModelTests.m */; };
+		63EC6434193D9AA800EBEBD6 /* PuzzleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EC642D193D8BAF00EBEBD6 /* PuzzleModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,13 +60,13 @@
 		63EC6414193D8B0300EBEBD6 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		63EC641B193D8B0300EBEBD6 /* SlidersTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SlidersTests-Info.plist"; sourceTree = "<group>"; };
 		63EC641D193D8B0300EBEBD6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		63EC641F193D8B0300EBEBD6 /* SlidersTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SlidersTests.m; sourceTree = "<group>"; };
 		63EC6429193D8B9E00EBEBD6 /* BuildScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildScene.h; sourceTree = "<group>"; };
 		63EC642A193D8B9E00EBEBD6 /* BuildScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildScene.m; sourceTree = "<group>"; };
 		63EC642C193D8BAF00EBEBD6 /* PuzzleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PuzzleModel.h; sourceTree = "<group>"; };
 		63EC642D193D8BAF00EBEBD6 /* PuzzleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PuzzleModel.m; sourceTree = "<group>"; };
 		63EC642F193D8BBD00EBEBD6 /* PlayScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayScene.h; sourceTree = "<group>"; };
 		63EC6430193D8BBD00EBEBD6 /* PlayScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayScene.m; sourceTree = "<group>"; };
+		63EC6432193D9A9100EBEBD6 /* PuzzleModelTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PuzzleModelTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,8 +167,8 @@
 		63EC6419193D8B0300EBEBD6 /* SlidersTests */ = {
 			isa = PBXGroup;
 			children = (
-				63EC641F193D8B0300EBEBD6 /* SlidersTests.m */,
 				63EC641A193D8B0300EBEBD6 /* Supporting Files */,
+				63EC6432193D9A9100EBEBD6 /* PuzzleModelTests.m */,
 			);
 			path = SlidersTests;
 			sourceTree = "<group>";
@@ -292,7 +293,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63EC6420193D8B0300EBEBD6 /* SlidersTests.m in Sources */,
+				63EC6434193D9AA800EBEBD6 /* PuzzleModel.m in Sources */,
+				63EC6433193D9A9100EBEBD6 /* PuzzleModelTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
