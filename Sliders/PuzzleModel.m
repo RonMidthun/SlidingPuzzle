@@ -15,8 +15,7 @@
     self = [super init];
     if(self)
     {
-        self.x = x;
-        self.y = y;
+        self.loc = CGPointMake(x, y);
     }
     return self;
 }
@@ -105,14 +104,75 @@
     //blocked
     return NO;
 }
-- (BOOL)moveCycle:(NSInteger)cycleIndex location:(NSInteger)locationIndex
+- (void)moveCycle:(NSInteger)cycleIndex location:(NSInteger)locationIndex
 {
-    return YES;
+    PuzzleCycle* testCycle = self.definition.cycles[cycleIndex];
+    NSInteger currentLocation = locationIndex;
+    NSInteger* sourceGems = malloc(sizeof(NSInteger) * self.size);
+    memcpy(sourceGems, self.gemAssignments, sizeof(NSInteger) * self.size);
+    while(YES)
+    {
+        if(sourceGems[currentLocation] != -1)
+        {
+            PuzzleCycleData* data = [testCycle.moves objectForKey:@(currentLocation)];
+            NSAssert(data, @"moveCycle called with invalid cycle information");
+            self.gemAssignments[data.destination] = sourceGems[currentLocation];
+            currentLocation = data.destination;
+            if(currentLocation == locationIndex)
+            {
+                //we have cycled back to the beginning, so we're finished
+                break;
+            }
+        }
+        else
+        {
+            //we have reached an empty spot, so empty the first node
+            self.gemAssignments[locationIndex] = -1;
+            break;
+        }
+    }
+    free(sourceGems);
 }
-- (NSArray*)locationsWithCycle:(NSInteger)cycleIndex location:(NSInteger)locationIndex offset:(float)offset
+
+- (void)locations:(CGPoint*)locations cycle:(NSInteger)cycleIndex location:(NSInteger)locationIndex offset:(float)offset
 {
-    return @[];
+    //current locations
+    for(int i=0; i<self.size; ++i)
+    {
+        if(self.gemAssignments[i] != -1)
+        {
+            locations[self.gemAssignments[i]] = [self.definition.locations[i] loc];
+        }
+    }
+
+    //for items in move cycle
+    PuzzleCycle* testCycle = self.definition.cycles[cycleIndex];
+    NSInteger currentLocation = locationIndex;
+    while(YES)
+    {
+        if(self.gemAssignments[currentLocation] != -1)
+        {
+            PuzzleCycleData* data = [testCycle.moves objectForKey:@(currentLocation)];
+            NSAssert(data, @"moveCycle called with invalid cycle information");
+            //find location of gem along the path
+            
+            locations[self.gemAssignments[currentLocation]] = [data.path locationWithOffset:offset];
+            
+            currentLocation = data.destination;
+            if(currentLocation == locationIndex)
+            {   //completed the cycle
+                break;
+            }
+        }
+        else
+        {   //end of chain
+            break;
+        }
+    }
+
+    
 }
+
 - (BOOL)isGameWon
 {
     return NO;

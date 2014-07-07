@@ -29,8 +29,7 @@
 
 @interface PuzzleLocation : NSObject
 -(instancetype)initWithX:(int)x Y:(int)y;
-@property (nonatomic, assign) int x;
-@property (nonatomic, assign) int y;
+@property (nonatomic, assign) CGPoint loc;
 //TODO: win flags
 @end
 
@@ -96,8 +95,8 @@ From this data, we need a means to get an array of gem locations, detect possibl
 @property (nonatomic, assign) NSInteger size;
 @property (nonatomic, assign) NSInteger* gemAssignments;  //what gem is located in each location (-1) is empty
 - (BOOL)isValidCycle:(NSInteger)cycleIndex location:(NSInteger)locationIndex;
-- (BOOL)moveCycle:(NSInteger)cycleIndex location:(NSInteger)locationIndex;
-- (NSArray*)locationsWithCycle:(NSInteger)cycleIndex location:(NSInteger)locationIndex offset:(float)offset;
+- (void)moveCycle:(NSInteger)cycleIndex location:(NSInteger)locationIndex;
+- (void)locations:(CGPoint*)locations cycle:(NSInteger)cycleIndex location:(NSInteger)locationIndex offset:(float)offset;
 - (BOOL)isGameWon;
 @end
 

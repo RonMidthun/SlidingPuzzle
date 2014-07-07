@@ -150,7 +150,6 @@
 }
 
 
-
 - (void)testPartialMoveCheck
 {
     [self setUpChain];
@@ -169,12 +168,106 @@
     XCTAssert([self.puzzle isValidCycle:0 location:0], @"Gap move");
 }
 
+- (void)testMoveNothing
+{
+    [self setUpLinear];
+    self.puzzle.gemCount = 0;
+    [self.puzzle moveCycle:0 location:0];
+    XCTAssert(self.puzzle.gemAssignments[0] == -1, @"0");
+    XCTAssert(self.puzzle.gemAssignments[1] == -1, @"1");
+    XCTAssert(self.puzzle.gemAssignments[2] == -1, @"2");
+}
 
 
+- (void)testMoveSingle
+{
+    [self setUpLinear];
+    self.puzzle.gemCount = 1;
+    self.puzzle.gemAssignments[0] = 0;
+    [self.puzzle moveCycle:0 location:0];
+    XCTAssert(self.puzzle.gemAssignments[0] == -1, @"0");
+    XCTAssert(self.puzzle.gemAssignments[1] == 0, @"1");
+    XCTAssert(self.puzzle.gemAssignments[2] == -1, @"2");
+}
 
+- (void)testMoveChain
+{
+    [self setUpLinear];
+    self.puzzle.gemCount = 2;
+    self.puzzle.gemAssignments[0] = 0;
+    self.puzzle.gemAssignments[1] = 1;
+    [self.puzzle moveCycle:0 location:0];
+    XCTAssert(self.puzzle.gemAssignments[0] == -1, @"0");
+    XCTAssert(self.puzzle.gemAssignments[1] == 0, @"1");
+    XCTAssert(self.puzzle.gemAssignments[2] == 1, @"2");
+}
 
+- (void)testMoveCircle
+{
+    [self setUpChain];
+    self.puzzle.gemCount = 3;
+    self.puzzle.gemAssignments[0] = 0;
+    self.puzzle.gemAssignments[1] = 1;
+    self.puzzle.gemAssignments[2] = 2;
+    [self.puzzle moveCycle:0 location:0];
+    XCTAssert(self.puzzle.gemAssignments[0] == 2, @"0");
+    XCTAssert(self.puzzle.gemAssignments[1] == 0, @"1");
+    XCTAssert(self.puzzle.gemAssignments[2] == 1, @"2");
+}
 
+- (void)testPushSingle
+{
+    [self setUpLinear];
+    self.puzzle.gemCount = 1;
+    self.puzzle.gemAssignments[0] = 0;
+    CGPoint locs[self.puzzle.gemCount];
+    [self.puzzle locations:locs cycle:0 location:0 offset:0.f];
+    XCTAssert(CGPointEqualToPoint(locs[0], CGPointMake(0, 0)), @"0");
+    [self.puzzle locations:locs cycle:0 location:0 offset:0.5f];
+    XCTAssert(CGPointEqualToPoint(locs[0], CGPointMake(0.5, 0)), @".5");
+    [self.puzzle locations:locs cycle:0 location:0 offset:1.f];
+    XCTAssert(CGPointEqualToPoint(locs[0], CGPointMake(1, 0)), @"1");
+}
 
+- (void)testPushChain
+{
+    [self setUpLinear];
+    self.puzzle.gemCount = 2;
+    self.puzzle.gemAssignments[0] = 0;
+    self.puzzle.gemAssignments[1] = 1;
+    CGPoint locs[self.puzzle.gemCount];
+    [self.puzzle locations:locs cycle:0 location:0 offset:0.f];
+    XCTAssert(CGPointEqualToPoint(locs[0], CGPointMake(0, 0)), @"0");
+    XCTAssert(CGPointEqualToPoint(locs[1], CGPointMake(1, 0)), @"0");
+    [self.puzzle locations:locs cycle:0 location:0 offset:0.5f];
+    XCTAssert(CGPointEqualToPoint(locs[0], CGPointMake(0.5, 0)), @".5");
+    XCTAssert(CGPointEqualToPoint(locs[1], CGPointMake(1.5, 0)), @".5");
+    [self.puzzle locations:locs cycle:0 location:0 offset:1.f];
+    XCTAssert(CGPointEqualToPoint(locs[0], CGPointMake(1, 0)), @"1");
+    XCTAssert(CGPointEqualToPoint(locs[1], CGPointMake(2, 0)), @"1");
+}
+
+- (void)testPushCircle
+{
+    [self setUpChain];
+    self.puzzle.gemCount = 3;
+    self.puzzle.gemAssignments[0] = 0;
+    self.puzzle.gemAssignments[1] = 1;
+    self.puzzle.gemAssignments[2] = 2;
+    CGPoint locs[self.puzzle.gemCount];
+    [self.puzzle locations:locs cycle:0 location:0 offset:0.f];
+    XCTAssert(CGPointEqualToPoint(locs[0], CGPointMake(0, 0)), @"0");
+    XCTAssert(CGPointEqualToPoint(locs[1], CGPointMake(1, 0)), @"0");
+    XCTAssert(CGPointEqualToPoint(locs[2], CGPointMake(2, 0)), @"0");
+    [self.puzzle locations:locs cycle:0 location:0 offset:0.5f];
+    XCTAssert(CGPointEqualToPoint(locs[0], CGPointMake(0.5, 0)), @".5");
+    XCTAssert(CGPointEqualToPoint(locs[1], CGPointMake(1.5, 0)), @".5");
+    XCTAssert(CGPointEqualToPoint(locs[2], CGPointMake(1, 0)), @".5");
+    [self.puzzle locations:locs cycle:0 location:0 offset:1.f];
+    XCTAssert(CGPointEqualToPoint(locs[0], CGPointMake(1, 0)), @"1");
+    XCTAssert(CGPointEqualToPoint(locs[1], CGPointMake(2, 0)), @"1");
+    XCTAssert(CGPointEqualToPoint(locs[2], CGPointMake(0, 0)), @"1");
+}
 
 
 @end
