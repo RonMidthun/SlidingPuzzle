@@ -1,0 +1,70 @@
+Puzzle maker 
+
+The idea is to enable creation of many puzzles in which pieces are moved around to match a pattern.  
+We want to be able to define a grid like
+
+	ABC
+	DEFG
+	HIJK
+	 LMN
+
+in which the pieces can move in a cycle, such as ABCFJIHD or EFGKNMLI
+Ideally, one would be able to select a puzzle element (called "gem" from here on in) and push it in a given direction if the move is valid.
+
+A cycle consists of a mapping
+key = source,  value = dest, path information
+path information could be linear, could be a spline, wrap-around the screen, could even be a fade out/in teleport kind of thing  
+An attempt to move a gem would look for the nearest valid path cycle.   
+
+Filled cycles are easy, but what about gaps?
+
+ABCD,   cycle defined as A->B, B->C, C->D.
+**.*	C is empty
+
+See if moving A is valid.    chain A->B, is moving B valid B->C.  C is empty and thus valid.  A+B will both move
+Moving D, D has no target and thus is not valid.
+
+So a move is valid if an empty location is found or the original location.
+
+Reverse is handled as a different cycle.
+
+UI consists of touching a gem and trying to move it.   Find the outward angles of all cycles for that location, select the closest one within a max range.   Once a cycle is found, the distance moved will determine how far to move the gems along it.   If the touch is finished a threshhold distance away, then finish the animation and update the gems.
+
+Gems have properties, if all location properties are filled with appropriate gems, the puzzle is won.
+Puzzle setup can be randomized from an initial state (in most cases, a winning one would be used)
+
+Data needed
+static puzzle definition
+Locations:  (x,y, win conditions, index)   (perhaps a cache of path angles?)
+Cycles: map Location->(Location,pathing)
+
+game state 
+Gems: array of property blobs
+State: map Location->Gem index
+
+At any given point in time exactly one cycle may be in flux (offset 0-1).
+To render:
+create array of positions, indexed by Gem.  Iterate state setting index to Location x,y
+if cycle offset > 0:
+	loop through cycle until dest empty or full cycle
+		position for gem at location set according to pathing information
+Draw all gems at positions
+
+UI
+touch begin (and not in motion)
+	select nearest gem (within max range)
+touch held
+	detect threshhold of movement, nearest cycle to angle of motion.  switch to that cycle (with animation in and out if necessary)
+touch release
+	if past threshhold, animate offset to 1.  Update game state by looping and setting gems to new location
+
+
+
+
+
+
+
+
+
+
+

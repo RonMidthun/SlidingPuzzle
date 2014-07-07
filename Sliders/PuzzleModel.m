@@ -7,6 +7,8 @@
 //
 
 #import "PuzzleModel.h"
+#import "PuzzlePaths.h"
+
 @implementation PuzzleLocation
 -(instancetype)initWithX:(int)x Y:(int)y
 {
@@ -20,91 +22,103 @@
 }
 @end
 
-@implementation PuzzleAction
--(instancetype)init
+
+
+@implementation PuzzleCycleData
+- (instancetype)initLinearWithDestinationIndex:(NSInteger)destination start:(CGPoint)start end:(CGPoint)end
 {
     self = [super init];
-    if(self)
-    {
-        self.motions = [[NSMutableDictionary alloc] init];
-    }
-    return self;
-}
-
--(NSSet *)terminalSlots
-{
-    NSSet* sources = [NSSet setWithArray:[self.motions allKeys]];
-    NSMutableSet* destinations = [NSMutableSet setWithArray:[self.motions allValues]];
-    [destinations minusSet:sources];
-    return destinations;
-}
-
--(NSSet *)sourceSlots
-{
-    NSMutableSet* sources = [NSMutableSet setWithArray:[self.motions allKeys]];
-    NSSet* destinations = [NSSet setWithArray:[self.motions allValues]];
-    [sources minusSet:destinations];
-    return sources;
-}
-
-
-@end
-
-@implementation PuzzleModel
--(instancetype)init
-{
-    self = [super init];
-    if(self)
-    {
-        self.positions = [[NSMutableArray alloc] init];
-        self.actions = [[NSMutableArray alloc] init];
-        self.startPosition = [[NSMutableDictionary alloc] init];
+    if (self) {
+        self.destination = destination;
+        self.path = [[PuzzlePathLerp alloc] initWithStart:start end:end];
     }
     return self;
 }
 @end
+
+
+@implementation PuzzleCycle
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.moves = [[NSMutableDictionary alloc] init];
+    }
+    return self;
+}
+@end
+
+@implementation PuzzleDefinition
+- (instancetype)initWithCycles:(NSArray*)cycles locations:(NSArray*)locations
+{
+    self = [super init];
+    if (self) {
+        self.cycles = cycles;
+        self.locations = locations;
+    }
+    return self;
+}
+@end
+
+
+//@implementation Gem
+//@end
 
 @implementation Puzzle
-- (instancetype)initWithPuzzleModel:(PuzzleModel*)model
+- (instancetype)initWithSize:(NSInteger)size
 {
     self = [super init];
-    if(self)
-    {
-        self.model = model;
-        [self reset];
+    if (self) {
+        self.size = size;
+        self.gemAssignments = malloc(sizeof(NSInteger) * size);
     }
     return self;
 }
 
-- (void)reset
+-(void)dealloc
 {
-    self.state = [[NSMutableDictionary alloc] initWithDictionary:self.model.startPosition];
+    free(self.gemAssignments);
 }
 
-- (BOOL)doAction:(PuzzleAction*)action
+- (BOOL)isValidCycle:(NSInteger)cycleIndex location:(NSInteger)locationIndex
 {
-    NSArray* usedKeys = [self.state allKeys];
-    NSSet* usedSet = [NSSet setWithArray:usedKeys];
-    if([usedSet intersectsSet:action.terminalSlots]) return false;
-    
-    NSMutableDictionary* finalState = [[NSMutableDictionary alloc] initWithDictionary:self.state];
-    [action.motions enumerateKeysAndObjectsUsingBlock:^(NSNumber* source, NSNumber* dest, BOOL *stop) {
-        NSString* token = self.state[source];
-        if(token)
-        {
-            finalState[dest] = token;
+    //note there is no test for non simple looped cycles
+    if(self.gemAssignments[locationIndex] == -1)
+    {   //there isn't anything to move
+        return NO;
+    }
+    PuzzleCycle* testCycle = self.definition.cycles[cycleIndex];
+    NSInteger currentLocation = locationIndex;
+    PuzzleCycleData* data;
+    while((data = [testCycle.moves objectForKey:@(currentLocation)]))
+    {
+        if(data.destination == locationIndex)
+        {   //cycled back to the beginning
+            return YES;
         }
-        else
-        {
-            [finalState removeObjectForKey:dest];
+        if(self.gemAssignments[data.destination] == -1)
+        {   //clear spot found
+            return YES;
         }
-    }];
-    [action.sourceSlots enumerateObjectsUsingBlock:^(NSNumber* loc, BOOL *stop) {
-        [finalState removeObjectForKey:loc];
-        
-    }];
-    self.state = finalState;
-    return true;
+        currentLocation = data.destination;
+    }
+    //blocked
+    return NO;
+}
+- (BOOL)moveCycle:(NSInteger)cycleIndex location:(NSInteger)locationIndex
+{
+    return YES;
+}
+- (NSArray*)locationsWithCycle:(NSInteger)cycleIndex location:(NSInteger)locationIndex offset:(float)offset
+{
+    return @[];
+}
+- (BOOL)isGameWon
+{
+    return NO;
 }
 @end
+
+
+
 

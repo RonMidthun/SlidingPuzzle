@@ -19,34 +19,88 @@
  */
 
 #import <Foundation/Foundation.h>
+
+
+
+@protocol PuzzlePath<NSObject>
+- (CGPoint)locationWithOffset:(float) offset;
+@end
+
+
 @interface PuzzleLocation : NSObject
 -(instancetype)initWithX:(int)x Y:(int)y;
 @property (nonatomic, assign) int x;
 @property (nonatomic, assign) int y;
+//TODO: win flags
 @end
 
-@interface PuzzleAction : NSObject
-@property (nonatomic, strong) NSString* imageName;  //a control image, if any is defined
-@property (nonatomic, strong) PuzzleLocation* location;                //location of control point
-@property (nonatomic, strong) NSMutableDictionary* motions;     //each movement is of form key->value
-@property (nonatomic, readonly) NSSet* terminalSlots;    //values that aren't also keys,
-                                                                //means these spots must be clear in order to move
-@property (nonatomic, readonly) NSSet* sourceSlots;     //keys that aren't values, these will be emptied
+//the object that goes inside the cycle dictionary
+@interface PuzzleCycleData : NSObject
+- (instancetype)initLinearWithDestinationIndex:(NSInteger)destination start:(CGPoint)start end:(CGPoint)end;
+@property (nonatomic, assign) NSInteger destination;    //the index into the locations array
+@property (nonatomic, strong) NSObject<PuzzlePath>* path;
 @end
 
-
-@interface PuzzleModel : NSObject
-@property (nonatomic, strong) NSMutableArray* positions;    //puzzle location for each position in the puzzle
-@property (nonatomic, strong) NSMutableArray* actions;
-@property (nonatomic, strong) NSMutableDictionary* startPosition;     //name of marker at each location
+//a possible move direction
+@interface PuzzleCycle : NSObject
+@property (nonatomic, strong) NSMutableDictionary* moves;   //locationIndex -> PuzzleCycleData
 @end
 
+//the puzzle itself
+@interface PuzzleDefinition : NSObject
+- (instancetype)initWithCycles:(NSArray*)cycles locations:(NSArray*)locations;
+@property (nonatomic, strong) NSArray* cycles;
+@property (nonatomic, strong) NSArray* locations;
+@end
+
+/*
+    The state of a puzzle at any given time is determined by:
+        puzzle definition
+        array of gems/location
+        chosen cycle
+        chosen location
+        offset within cycle
+ 
+From this data, we need a means to get an array of gem locations, detect possible moves and test win conditions.
+ Possible moves (based on cycle/location)
+ First, make sure gem in location
+ if so, loop through destinations:
+    If destination is empty, then valid
+    If destination is original location, then valid
+    If destination is full, then need to check next destination
+ 
+    Failure case?   Either looping to previously found gem (should not be possible!) or no destination for the location
+ 
+ 
+ Gem locations:
+    start by setting each gem location to it's current location (in the definition
+    set current location == chosen location
+    while location has a gem and not cycled
+        move gem along the path
+        set current location to destination location
+        if no destination, then something has gone very wrong
+ 
+ */
+//the things moving on the puzzle
+//@interface Gem : NSObject
+////sprite
+////some kind of identifying properties
+//@end
+
+//the puzzle as it stands at the moment
 @interface Puzzle : NSObject
-@property (nonatomic, strong) PuzzleModel* model;
-@property (nonatomic, strong) NSMutableDictionary* state;
-- (instancetype)initWithPuzzleModel:(PuzzleModel*)model;
-- (void)reset;
-- (BOOL)doAction:(PuzzleAction*)action;
+- (instancetype)initWithSize:(NSInteger)size;
+@property (nonatomic, strong) PuzzleDefinition* definition;
+@property (nonatomic, assign) NSInteger gemCount;     //temporary
+//@property (nonatomic, strong) NSArray* gems;            //points to the actual gem data
+@property (nonatomic, assign) NSInteger size;
+@property (nonatomic, assign) NSInteger* gemAssignments;  //what gem is located in each location (-1) is empty
+- (BOOL)isValidCycle:(NSInteger)cycleIndex location:(NSInteger)locationIndex;
+- (BOOL)moveCycle:(NSInteger)cycleIndex location:(NSInteger)locationIndex;
+- (NSArray*)locationsWithCycle:(NSInteger)cycleIndex location:(NSInteger)locationIndex offset:(float)offset;
+- (BOOL)isGameWon;
 @end
+
+
 
 

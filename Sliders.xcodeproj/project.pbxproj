@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		63D7676B196A138E003F7608 /* PuzzlePaths.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D7676A196A138E003F7608 /* PuzzlePaths.m */; };
+		63D7676E196A1495003F7608 /* PuzzlePathTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D7676D196A1495003F7608 /* PuzzlePathTests.m */; };
 		63EC63F0193D8B0300EBEBD6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63EC63EF193D8B0300EBEBD6 /* Cocoa.framework */; };
 		63EC63F2193D8B0300EBEBD6 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63EC63F1193D8B0300EBEBD6 /* SpriteKit.framework */; };
 		63EC63FC193D8B0300EBEBD6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 63EC63FA193D8B0300EBEBD6 /* InfoPlist.strings */; };
@@ -24,7 +26,6 @@
 		63EC642E193D8BAF00EBEBD6 /* PuzzleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EC642D193D8BAF00EBEBD6 /* PuzzleModel.m */; };
 		63EC6431193D8BBD00EBEBD6 /* PlayScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EC6430193D8BBD00EBEBD6 /* PlayScene.m */; };
 		63EC6433193D9A9100EBEBD6 /* PuzzleModelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EC6432193D9A9100EBEBD6 /* PuzzleModelTests.m */; };
-		63EC6434193D9AA800EBEBD6 /* PuzzleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EC642D193D8BAF00EBEBD6 /* PuzzleModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		63D76769196A138E003F7608 /* PuzzlePaths.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PuzzlePaths.h; sourceTree = "<group>"; };
+		63D7676A196A138E003F7608 /* PuzzlePaths.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PuzzlePaths.m; sourceTree = "<group>"; };
+		63D7676D196A1495003F7608 /* PuzzlePathTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PuzzlePathTests.m; sourceTree = "<group>"; };
 		63EC63EC193D8B0300EBEBD6 /* Sliders.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sliders.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63EC63EF193D8B0300EBEBD6 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		63EC63F1193D8B0300EBEBD6 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
@@ -148,6 +152,8 @@
 				63EC642D193D8BAF00EBEBD6 /* PuzzleModel.m */,
 				63EC642F193D8BBD00EBEBD6 /* PlayScene.h */,
 				63EC6430193D8BBD00EBEBD6 /* PlayScene.m */,
+				63D76769196A138E003F7608 /* PuzzlePaths.h */,
+				63D7676A196A138E003F7608 /* PuzzlePaths.m */,
 			);
 			path = Sliders;
 			sourceTree = "<group>";
@@ -169,6 +175,7 @@
 			children = (
 				63EC641A193D8B0300EBEBD6 /* Supporting Files */,
 				63EC6432193D9A9100EBEBD6 /* PuzzleModelTests.m */,
+				63D7676D196A1495003F7608 /* PuzzlePathTests.m */,
 			);
 			path = SlidersTests;
 			sourceTree = "<group>";
@@ -282,6 +289,7 @@
 			files = (
 				63EC6406193D8B0300EBEBD6 /* MyScene.m in Sources */,
 				63EC642B193D8B9E00EBEBD6 /* BuildScene.m in Sources */,
+				63D7676B196A138E003F7608 /* PuzzlePaths.m in Sources */,
 				63EC63FE193D8B0300EBEBD6 /* main.m in Sources */,
 				63EC642E193D8BAF00EBEBD6 /* PuzzleModel.m in Sources */,
 				63EC6431193D8BBD00EBEBD6 /* PlayScene.m in Sources */,
@@ -293,7 +301,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63EC6434193D9AA800EBEBD6 /* PuzzleModel.m in Sources */,
+				63D7676E196A1495003F7608 /* PuzzlePathTests.m in Sources */,
 				63EC6433193D9A9100EBEBD6 /* PuzzleModelTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -493,6 +501,7 @@
 				63EC6425193D8B0300EBEBD6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		63EC6426193D8B0300EBEBD6 /* Build configuration list for PBXNativeTarget "SlidersTests" */ = {
 			isa = XCConfigurationList;
@@ -501,6 +510,7 @@
 				63EC6428193D8B0300EBEBD6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
